@@ -1,0 +1,14 @@
+<div class="row">
+  <table class="table" style="margin: 10px">
+    <thead>
+    <tr>
+      <th class="">Value</th>
+      <th class="">Created</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let temp of temperatures">
+      <td>{{temp.Value}}</td>
+      <td>{{temp.Created.toLocaleDateString()}}</td>
+    </tr>
+  </table>
+</div>

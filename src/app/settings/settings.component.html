@@ -1,0 +1,16 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit(settingsForm)" #settingsForm="ngForm">
+    <md-card>
+        <md-card-content class="form-container">
+           <div class="form-group">
+              <label class="myLabel">Notify when temperature reaches</label>
+              <input class="form-control" name="tempNotfy" type="checkbox" [(ngModel)]="settingsModel.TemperatureNotify">
+             <label class="myLabel">Temperature value</label>
+             <input class="form-control" name="tempValue" type="number" [(ngModel)]="settingsModel.TemperatureValue">
+             <label class="myLabel">Notify when weight exceeds</label>
+             <input class="form-control" name="weightThreshold" type="number" [(ngModel)]="settingsModel.WeightThreshold">
+           </div>
+        </md-card-content>
+    </md-card>
+  </form>
+</div>
