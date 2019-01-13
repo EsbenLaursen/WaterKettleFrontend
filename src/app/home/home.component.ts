@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
   }
 
   setupGraph():void{
-    setInterval(()=>{this.updateGraph()},5000);
+    //setInterval(()=>{this.updateGraph()},5000);
 
     this.lineChartData = [ {data: [], label: 'Kaffen skal være varm for helvede' }];
 
