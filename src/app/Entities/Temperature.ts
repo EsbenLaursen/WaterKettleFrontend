@@ -1,11 +1,13 @@
 export class Temperature {
   id: number;
-  Created: Date;
-  Value: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  temperature: number;
+  weight: number;
 
-  constructor(id, value, date) {
+  constructor(id, date, temp) {
       this.id = id;
-      this.Value = value;
-      this.Created = date;
+      this.createdAt = date;
+      this.temperature =temp;
   }
 }

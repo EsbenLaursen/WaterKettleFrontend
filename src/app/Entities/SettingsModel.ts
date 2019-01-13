@@ -1,7 +1,8 @@
 export class SettingsModel {
   id: number;
-  TemperatureValue: number;
-  TemperatureNotify: boolean;
-  WeightThreshold: number;
+  temperatureThreshold: number;
+  temperatureNotify: boolean;
+  weightThreshold: number;
+  weightNotify: boolean;
 
 }

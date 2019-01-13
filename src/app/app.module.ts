@@ -9,7 +9,9 @@ import { SettingsComponent } from './settings/settings.component';
 import { HistoryComponent } from './history/history.component';
 import {FormsModule} from '@angular/forms';
 import {MdCardModule} from '@angular/material';
-
+import {TemperatureService} from './Services/temperature.service';
+import { HttpModule } from '@angular/http';
+import {SettingsService} from './Services/settings.service';
 
 const routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +19,8 @@ const routes = [
   { path: 'settings', component: SettingsComponent },
   { path: '', component: HomeComponent }
 ];
+
+
 
 @NgModule({
   declarations: [
@@ -31,10 +35,11 @@ const routes = [
     FormsModule,
     ChartsModule,
     MdCardModule,
+    HttpModule,
     RouterModule.forRoot(routes)
   ],
   exports: [ RouterModule, MdCardModule ],
-  providers: [],
+  providers: [TemperatureService,SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

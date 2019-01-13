@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SettingsModel} from '../Entities/SettingsModel';
+import {SettingsService} from '../Services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,7 +10,7 @@ import {SettingsModel} from '../Entities/SettingsModel';
 export class SettingsComponent implements OnInit {
 
   settingsModel: SettingsModel;
-  constructor() { }
+  constructor(private SettingsService: SettingsService) { }
 
   ngOnInit() {
     this.settingsModel = new SettingsModel();

@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Temperature} from '../Entities/Temperature';
+import {TemperatureService} from '../Services/temperature.service';
+import * as moment from 'moment';
+import {BaseChartDirective} from 'ng2-charts';
+
 
 
 @Component({
@@ -15,8 +19,10 @@ export class HomeComponent implements OnInit {
 //  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions:any = {
     responsive: true,
+
     scales: {
       xAxes: [{
+
         type: 'time',
         time: {
           unit: 'hour',
@@ -24,9 +30,17 @@ export class HomeComponent implements OnInit {
             hour: 'HH:mm'
           },
           max: new Date(),
-          min: new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),new Date().getHours()-24,0,0,0 )
-      }}]
+          min: new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),new Date().getHours() -1,0,0,0 )
+      }}],
+      yAxes: [{
+        ticks: {
+          steps : 10,
+          stepValue : 10,
+          max : 100,
+        }
+      }]
     }
+
   };
   public lineChartColors:Array<any> = [
     { // grey
@@ -57,36 +71,55 @@ export class HomeComponent implements OnInit {
   public lineChartLegend = true;
   public lineChartType = 'line';
 
-
+  loaded = false;
 
 
   temperatures: Temperature[];
-  constructor() {
-    this.temperatures = [
-       new Temperature(1, 70,new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 0,0,0,0 )),
-      new Temperature(2, 76, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 4,0,0,0 )),
-      new Temperature(3, 85, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 7,0,0,0 )),
-      new Temperature(4, 80, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 24,0,0,0 )),
-    ];
+  constructor(private tempService: TemperatureService) {
 
 
-
-    this.lineChartData = [ {data: [], label: 'Kaffen skal være varm for helvede' }];
-
-    this.temperatures.forEach((t)=> {
-      this.lineChartData[0].data.push({
-        x: t.Created,
-        y: t.Value
-      });
-    }
-    );
-
-
+  //  this.temperatures = [
+  //    new Temperature(1,new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 0,0,0,0 ), 45),
+  //    new Temperature(2, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 4,0,0,0 ),44),
+  //    new Temperature(3, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 7,0,0,0 ),66),
+  //    new Temperature(4, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 24,0,0,0 ),99),
+  //  ];
+    this.setupGraph();
 
 
   }
 
+  setupGraph():void{
+    setInterval(()=>{this.updateGraph()},5000);
+
+    this.lineChartData = [ {data: [], label: 'Kaffen skal være varm for helvede' }];
+
+    this.updateGraph();
+  }
+
   ngOnInit() {
+
+
+  }
+
+  updateGraph():void{
+
+     this.tempService.getAllTemperatures().subscribe(data=> {
+       let temp:Array<any> = [];
+      this.temperatures = data["rows"];
+      this.temperatures.forEach((t)=> {
+        const formattedDate = convertDate(t);
+        temp.push ({
+          x: formattedDate,
+          y: t.temperature
+        });
+      });
+       this.loaded = false;
+       this.lineChartData[0].data = temp;
+       this.loaded = true;
+      console.log(this.lineChartData[0].data);
+    },error1 => console.log(error1));
+
   }
 
   // events
@@ -97,16 +130,12 @@ export class HomeComponent implements OnInit {
   public chartHovered(e:any):void {
     console.log(e);
   }
-/*
-  public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
-  }*/
-
+}
+function convertDate(t) {
+  const formattedDate = new Date(parseInt(moment(t.createdAt.toString()).format('YYYY'), 0),
+    0,
+    parseInt(moment(t.createdAt.toString()).format('DD'), 0),
+    parseInt(moment(t.createdAt.toString()).format('HH'), 0),
+    parseInt(moment(t.createdAt.toString()).format('mm'), 0), 0, 0);
+  return formattedDate;
 }
