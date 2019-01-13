@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SettingsModel} from '../Entities/SettingsModel';
 import {SettingsService} from '../Services/settings.service';
-
+import {Http} from "@angular/http";
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -9,18 +9,28 @@ import {SettingsService} from '../Services/settings.service';
 })
 export class SettingsComponent implements OnInit {
 
-  settingsModel: SettingsModel;
-  constructor(private SettingsService: SettingsService) { }
+  private apiUrl = 'https://waterkettleapi.herokuapp.com/settingsmodels';
+ public settingsModel: SettingsModel;
+  constructor(private SettingsService: SettingsService, private http: Http) {
+  this.settingsModel = new SettingsModel();
+  this.SettingsService.getSettings().subscribe(settings => {this.settingsModel = settings[0]});
+
+  }
 
   ngOnInit() {
-    this.settingsModel = new SettingsModel();
-    this.getSettings(this.settingsModel);
-  }
 
 
 
-  getSettings(model) {
-    model.TemperatureNotify = true;
-    model.TemperatureValue = 80;
-  }
+
+}
+onSubmit(){
+    this.SettingsService.putSettings(this.settingsModel);
+  console.log(this.settingsModel);
+}
+
+
+
+postSettings(){
+    console.log("clicking");
+}
 }

@@ -1,15 +1,26 @@
 <div class="container">
   <form (ngSubmit)="onSubmit(settingsForm)" #settingsForm="ngForm">
     <md-card>
+      <md-card-header style="margin: 25px;">Water Kettle Settings</md-card-header>
+
         <md-card-content class="form-container">
-           <div class="form-group">
-              <label class="myLabel">Notify when temperature reaches</label>
-              <input class="form-control" name="tempNotfy" type="checkbox" [(ngModel)]="settingsModel.TemperatureNotify">
-             <label class="myLabel">Temperature value</label>
-             <input class="form-control" name="tempValue" type="number" [(ngModel)]="settingsModel.TemperatureValue">
-             <label class="myLabel">Notify when weight exceeds</label>
-             <input class="form-control" name="weightThreshold" type="number" [(ngModel)]="settingsModel.WeightThreshold">
-           </div>
+          <div class="form-group" >
+            <label>Notify temperature</label>
+            <input class="form-control" name="tempNotify" type="checkbox" [(ngModel)]="settingsModel.temperatureNotify">
+          </div>
+          <div class="form-group">
+            <label>Notify when temperature exceeds</label>
+            <input class="form-control" name="tempValue" [(ngModel)]="settingsModel.temperatureThreshold">
+          </div>
+          <div class="form-group">
+            <label>Notify weight</label>
+            <input class="form-control" name="weightNotify" type="checkbox" [(ngModel)]="settingsModel.weightNotify">
+          </div>
+          <div class="form-group">
+          <label>Notify when weight exceeds</label>
+            <input class="form-control" name="weightThreshold"  [(ngModel)]="settingsModel.weightThreshold">
+        </div>
+        <button class="btn btn-success" (click)="postSettings">Save settings</button>
         </md-card-content>
     </md-card>
   </form>

@@ -4,5 +4,4 @@ export class SettingsModel {
   temperatureNotify: boolean;
   weightThreshold: number;
   weightNotify: boolean;
-
 }
