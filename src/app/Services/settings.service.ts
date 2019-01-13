@@ -3,11 +3,12 @@ import {Headers, Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {SettingsModel} from "../Entities/SettingsModel";
 
+
 @Injectable()
 export class SettingsService {
     private apiUrl = 'https://waterkettleapi.herokuapp.com/settingsmodels/';
-//'http://localhost:9000/WaterKettleModels';
-//'https://hidden-earth-64412.herokuapp.com/WaterKettleModels/';
+//'http://localhost:9000/settingsmodels';
+//'https://hidden-earth-64412.herokuapp.com/settingsmodels/';
   private headers: Headers;
 
   constructor(private http: Http) {
@@ -17,7 +18,10 @@ export class SettingsService {
   putSettings(settings: SettingsModel): Observable<SettingsModel> {
 
     this.headers = new Headers();
+    console.log("PUT");
     console.log(settings);
+    settings.weightNotify = true;
+    settings.temperatureNotify = true;
     this.headers.append("Content-Type", "application/json");
     return this.http
       .put(this.apiUrl +settings.id, settings,
@@ -30,7 +34,7 @@ export class SettingsService {
     this.headers.append("Content-Type", "application/json");
     /**this.headers.append("Authorization", "Bearer ");**/
     return this.http
-      .get(this.apiUrl+'?limit=1', {headers: this.headers })
+      .get(this.apiUrl+'?limit=2', {headers: this.headers })
       .map(response => response.json() as SettingsModel);
 
   }
