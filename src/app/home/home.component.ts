@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
             hour: 'HH:mm'
           },
           max: new Date(),
-          min: new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),new Date().getHours() -1,0,0,0 )
+          min: new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),new Date().getHours() ,new Date().getMinutes()-1,0,0 )
       }}],
       yAxes: [{
         ticks: {
@@ -76,17 +76,7 @@ export class HomeComponent implements OnInit {
 
   temperatures: Temperature[];
   constructor(private tempService: TemperatureService) {
-
-
-  //  this.temperatures = [
-  //    new Temperature(1,new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 0,0,0,0 ), 45),
-  //    new Temperature(2, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 4,0,0,0 ),44),
-  //    new Temperature(3, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 7,0,0,0 ),66),
-  //    new Temperature(4, new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 24,0,0,0 ),99),
-  //  ];
     this.setupGraph();
-
-
   }
 
   setupGraph():void{
@@ -98,8 +88,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
   }
 
   updateGraph():void{
@@ -136,6 +124,7 @@ function convertDate(t) {
     0,
     parseInt(moment(t.createdAt.toString()).format('DD'), 0),
     parseInt(moment(t.createdAt.toString()).format('HH'), 0),
-    parseInt(moment(t.createdAt.toString()).format('mm'), 0), 0, 0);
+    parseInt(moment(t.createdAt.toString()).format('mm'), 0),
+    parseInt(moment(t.createdAt.toString()).format('ss'), 0), 0);
   return formattedDate;
 }

@@ -6,7 +6,7 @@ import {SettingsModel} from "../Entities/SettingsModel";
 
 @Injectable()
 export class SettingsService {
-    private apiUrl = 'https://waterkettleapi.herokuapp.com/settingsmodels/';
+    private apiUrl = 'http://localhost:9000/settingsmodels/'; // 'https://waterkettleapi.herokuapp.com/settingsmodels/';
 //'http://localhost:9000/settingsmodels';
 //'https://hidden-earth-64412.herokuapp.com/settingsmodels/';
   private headers: Headers;
@@ -34,7 +34,7 @@ export class SettingsService {
     this.headers.append("Content-Type", "application/json");
     /**this.headers.append("Authorization", "Bearer ");**/
     return this.http
-      .get(this.apiUrl+'?limit=2', {headers: this.headers })
+      .get(this.apiUrl+'?limit=1', {headers: this.headers })
       .map(response => response.json() as SettingsModel);
 
   }
